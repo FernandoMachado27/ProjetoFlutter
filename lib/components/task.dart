@@ -15,7 +15,6 @@ class Task extends StatefulWidget {
 }
 
 class _TaskState extends State<Task> {
-  int nivel = 0;
 
   bool assetOrNetwork() {
     if (widget.foto.contains('http')) {
@@ -89,11 +88,7 @@ class _TaskState extends State<Task> {
                       height: 52,
                       width: 52,
                       child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              nivel++;
-                            });
-                          },
+                          onPressed: () {},
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.end,
