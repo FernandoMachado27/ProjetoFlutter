@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_a3_ironcar/components/insurance.dart';
 
-class Task extends StatefulWidget { // classe responsavel por criar os blocos de carros cadastrados
+class Task extends StatefulWidget {
+  // classe responsavel por criar os blocos de carros cadastrados
   //StatelessWidget -> estático, não muda
   final String nome;
   final String foto;
   final int seguro;
 
-  const Task(this.nome, this.foto, this.seguro, {Key? key})
-      : super(key: key);
+  const Task(this.nome, this.foto, this.seguro, {Key? key}) : super(key: key);
 
   @override
   State<Task> createState() => _TaskState();
@@ -16,6 +16,13 @@ class Task extends StatefulWidget { // classe responsavel por criar os blocos de
 
 class _TaskState extends State<Task> {
   int nivel = 0;
+
+  bool assetOrNetwork() {
+    if (widget.foto.contains('http')) {
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +56,16 @@ class _TaskState extends State<Task> {
                       width: 72,
                       height: 100,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.asset(
-                          widget.foto,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                          borderRadius: BorderRadius.circular(8),
+                          child: assetOrNetwork()
+                              ? Image.asset(
+                                  widget.foto,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(
+                                  widget.foto,
+                                  fit: BoxFit.cover,
+                                )),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
