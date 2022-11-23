@@ -14,7 +14,34 @@ class TaskDao {
   static const String _insurance = 'insurance';
   static const String _image = 'image';
 
-  save(Task car) async {}
+  save(Task car) async {
+    print('Iniciando o save: ');
+    final Database bancoDeDados = await getDatabase();
+    var itemExist = await find(car.nome);
+    Map<String, dynamic> carMap = toMap(car);
+    if (itemExist.isEmpty) {
+      print('O cliente não existia');
+      return await bancoDeDados.insert(_tablename, carMap);
+    } else {
+      print('O cliente já existia');
+      return await bancoDeDados.update(
+        _tablename,
+        carMap,
+        where: '$_name = ?',
+        whereArgs: [car.nome],
+      );
+    }
+  } // salvar
+
+  Map<String, dynamic> toMap(Task car) {
+    print('Convertendo tarefa em Map: ');
+    final Map<String, dynamic> mapaDeCarros = Map();
+    mapaDeCarros[_name] = car.nome;
+    mapaDeCarros[_insurance] = car.seguro;
+    mapaDeCarros[_insurance] = car.foto;
+    print('Mapa de carros: $mapaDeCarros');
+    return mapaDeCarros;
+  } // tabelinha
 
   Future<List<Task>> findAll() async {
     print('Acessando o findAll: ');
@@ -23,7 +50,7 @@ class TaskDao {
         await bancoDeDados.query(_tablename);
     print('Procurando dados no Banco de Dados. Encontrado: $result');
     return toList(result);
-  }
+  } // busca elementos, lista de carros
 
   List<Task> toList(List<Map<String, dynamic>> mapaDeCarros) {
     print('Convertendo to List:');
@@ -34,7 +61,7 @@ class TaskDao {
     }
     print('Lista de Carros $cars');
     return cars;
-  }
+  } // pega o mapa do bd e vira lista
 
   Future<List<Task>> find(String nomeDoCliente) async {
     print('Acessando find: ');
@@ -46,7 +73,15 @@ class TaskDao {
     );
     print('Cliente encontrado: ${toList(result)}');
     return toList(result);
-  }
+  } // procurar especifico
 
-  delete(String nomeDoCarro) async {}
+  delete(String nomeDoCliente) async {
+    print('Deletando cliente: $nomeDoCliente');
+    final Database bancoDeDados = await getDatabase();
+    return bancoDeDados.delete(
+      _tablename,
+      where: '$_name = ?',
+      whereArgs: [nomeDoCliente],
+    );
+  } // deletar
 }
