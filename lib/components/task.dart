@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_a3_ironcar/components/insurance.dart';
+import 'package:projeto_a3_ironcar/data/task_dao.dart';
 
 class Task extends StatefulWidget {
   // classe responsavel por criar os blocos de carros cadastrados
@@ -15,7 +16,6 @@ class Task extends StatefulWidget {
 }
 
 class _TaskState extends State<Task> {
-
   bool assetOrNetwork() {
     if (widget.foto.contains('http')) {
       return false;
@@ -29,13 +29,6 @@ class _TaskState extends State<Task> {
       padding: const EdgeInsets.all(8.0),
       child: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              color: Colors.orange,
-            ),
-            height: 140,
-          ),
           Column(
             children: [
               Container(
@@ -88,7 +81,10 @@ class _TaskState extends State<Task> {
                       height: 52,
                       width: 52,
                       child: ElevatedButton(
-                          onPressed: () {},
+                        onPressed: (){},
+                          onLongPress: () {
+                            TaskDao().delete(widget.nome);
+                          },
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.end,

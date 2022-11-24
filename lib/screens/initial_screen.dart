@@ -18,6 +18,9 @@ class _InitialScreenState extends State<InitialScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
+        actions: [
+          IconButton(onPressed: (){setState((){});}, icon: Icon(Icons.refresh))
+        ],
         title: const Text('Ironcar'),
       ),
       body: Padding(
@@ -30,7 +33,7 @@ class _InitialScreenState extends State<InitialScreen> {
                 case ConnectionState.none:
                   return Center(
                     child: Column(
-                      children: [
+                      children: const [
                         CircularProgressIndicator(),
                         Text('Carregando'),
                       ],
@@ -40,7 +43,7 @@ class _InitialScreenState extends State<InitialScreen> {
                 case ConnectionState.waiting:
                   return Center(
                     child: Column(
-                      children: [
+                      children: const [
                         CircularProgressIndicator(),
                         Text('Carregando'),
                       ],
@@ -50,7 +53,7 @@ class _InitialScreenState extends State<InitialScreen> {
                 case ConnectionState.active:
                   return Center(
                     child: Column(
-                      children: [
+                      children: const [
                         CircularProgressIndicator(),
                         Text('Carregando'),
                       ],
@@ -68,21 +71,22 @@ class _InitialScreenState extends State<InitialScreen> {
                           });
                     }
                     return Center(
-                      child: Column(
-                        children: [
-                          Icon(Icons.error_outline, size: 128),
-                          Text(
-                            'Não há nenhum carro cadastrado',
-                            style: TextStyle(fontSize: 32),
-                          ),
-                        ],
-                      ),
-                    );
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        Icon(Icons.error_outline, size: 128),
+                        Text(
+                          'Não há nenhum carro cadastrado',
+                          style: TextStyle(fontSize: 32),
+                        ),
+                      ],
+                    ));
                   }
-                  return Text('Erro ao carregar carros');
+                  return const Text('Erro ao carregar carros');
                   break;
               }
-              return Text('Erro desconhecido');
+              return const Text('Erro desconhecido');
             }),
       ),
       floatingActionButton: FloatingActionButton(
@@ -94,7 +98,9 @@ class _InitialScreenState extends State<InitialScreen> {
                 taskContext: context,
               ),
             ),
-          );
+          ).then((value) => setState(() {
+                print('Recarregando a tela inicial');
+              }));
         },
         child: const Icon(Icons.add),
       ),

@@ -38,7 +38,7 @@ class TaskDao {
     final Map<String, dynamic> mapaDeCarros = Map();
     mapaDeCarros[_name] = car.nome;
     mapaDeCarros[_insurance] = car.seguro;
-    mapaDeCarros[_insurance] = car.foto;
+    mapaDeCarros[_image] = car.foto;
     print('Mapa de carros: $mapaDeCarros');
     return mapaDeCarros;
   } // tabelinha
@@ -56,7 +56,11 @@ class TaskDao {
     print('Convertendo to List:');
     final List<Task> cars = [];
     for (Map<String, dynamic> linha in mapaDeCarros) {
-      final Task car = Task(linha[_name], linha[_image], linha[_insurance]);
+      final Task car = Task(
+        linha[_name],
+        linha[_image],
+        linha[_insurance],
+      );
       cars.add(car);
     }
     print('Lista de Carros $cars');
@@ -66,6 +70,7 @@ class TaskDao {
   Future<List<Task>> find(String nomeDoCliente) async {
     print('Acessando find: ');
     final Database bancoDeDados = await getDatabase();
+    print('Procurando cliente com o nome: ${nomeDoCliente}');
     final List<Map<String, dynamic>> result = await bancoDeDados.query(
       _tablename,
       where: '$_name = ?',

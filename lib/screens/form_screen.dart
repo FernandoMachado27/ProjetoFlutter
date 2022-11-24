@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_a3_ironcar/components/task.dart';
+import 'package:projeto_a3_ironcar/data/task_dao.dart';
 import 'package:projeto_a3_ironcar/data/task_inherited.dart';
 
 class FormScreen extends StatefulWidget {
@@ -18,17 +20,16 @@ class _FormScreenState extends State<FormScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  bool valueValidator(String? value){
-    if(value != null && value.isEmpty){
+  bool valueValidator(String? value) {
+    if (value != null && value.isEmpty) {
       return true;
     }
     return false;
   }
 
-  bool insuranceValidator(String? value){
-    if(value != null && value.isEmpty){
-      if(int.parse(value) > 3 ||
-          int.parse(value) < 1){
+  bool insuranceValidator(String? value) {
+    if (value != null && value.isEmpty) {
+      if (int.parse(value) > 3 || int.parse(value) < 1) {
         return true;
       }
     }
@@ -145,10 +146,11 @@ class _FormScreenState extends State<FormScreen> {
                         // print(nameController.text);
                         // print(int.parse(insuranceController.text));
                         // print(imageController.text);
-                        TaskInherited.of(widget.taskContext).newTask(
-                            nameController.text,
-                            imageController.text,
-                            int.parse(insuranceController.text));
+                        TaskDao().save(Task(
+                          nameController.text,
+                          imageController.text,
+                          int.parse(insuranceController.text),
+                        ));
                         ScaffoldMessenger.of(widget.taskContext).showSnackBar(
                           const SnackBar(
                             content: Text('Criando novo cadastro'),
