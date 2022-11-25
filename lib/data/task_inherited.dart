@@ -9,9 +9,6 @@ class TaskInherited extends InheritedWidget {
   }) : super(key: key, child: child);
 
   final List<Task> taskList = [
-    Task('Lewis Hamilton', 'assets/images/lamborghini-centenario.webp', 3),
-    Task('Charles Leclerc', 'assets/images/ferrari-f8.webp', 2),
-    Task('Daniel Ricciardo', 'assets/images/BMW I8.png', 1),
   ];
 
   void newTask(String name, String photo, int insurance){
